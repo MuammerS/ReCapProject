@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Entities.Concrete;
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -42,5 +44,14 @@ namespace Business.Constants
         public static string CheckUploadedImagesLimit = "En az 5 resim ekleyebilirsiniz";
 
         public static string ImagesAdded = "Resim Eklendi";
+
+        public static string AuthorizationDenied = "Yetkiniz Yok";
+        public static string UserRegistered = "Kayıt Olundu";
+        public static string UserNotFound = "Kullanıcı Bulunamadı.";
+        public static string PasswordError = "Parola Hatası.";
+        public static string SuccessfulLogin = "Giriş Başarılı.";
+        public static string UserAlreadyExists = "Kullanıcı Mevcut.";
+
+        public static string AccessTokenCreated = "Token Üretildi.";
     }
 }

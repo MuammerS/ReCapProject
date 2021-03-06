@@ -2,6 +2,8 @@
 using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Result;
 using DataAccess.Abstract;
@@ -25,17 +27,35 @@ namespace Business.Concrete
 
         [SecuredOperation("car.add , admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
 
-        public IResult Delete(Car car)
+
+
+
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Car car)
         {
-            throw new NotImplementedException();
+            _carDal.Update(car);
+            _carDal.Add(car);
+
+            return new SuccessResult(Messages.CarUpdated);
         }
 
+
+
+
+        public IResult Delete(Car car)
+        {
+            _carDal.Delete(car);
+            return new SuccessDataResult<Car>(Messages.CarDeleted);
+        }
+
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             //İş kodları
@@ -80,5 +100,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId));
         }
 
+
+        [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
+        public IResult Update(Car car)
+        {
+            _carDal.Update(car);
+            return new SuccessResult(Messages.CarUpdated);
+        }
     }
 }

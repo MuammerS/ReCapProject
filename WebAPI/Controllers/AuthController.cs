@@ -10,7 +10,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private IAuthService _authService;
 
@@ -54,6 +54,7 @@ namespace WebAPI.Controllers
             }
 
             return BadRequest(result.Messages);
+
         }
     }
 }
